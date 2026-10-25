@@ -112,7 +112,7 @@ class EditorState extends ChangeNotifier {
     return null;
   }
 
-  WidgetNode? addWidget(String type, {String? parentId}) {
+  WidgetNode? addWidget(String type, {String? parentId, int? index}) {
     final def = widgetDef(type);
     if (def == null) return null;
     WidgetNode? created;
@@ -121,6 +121,7 @@ class EditorState extends ChangeNotifier {
         screen.id,
         type,
         parentId: parentId ?? _defaultParentId(type: type),
+        index: index,
       );
       created = result.node;
       if (created != null) {
@@ -138,6 +139,29 @@ class EditorState extends ChangeNotifier {
       project.removeWidget(screen.id, nodeId);
       if (_selectedId == nodeId) _selectedId = null;
     });
+  }
+
+  void drop(String dragData, WidgetNode target) {
+    final cap = widgetDef(target.type)?.maxChildren ?? -1;
+    final into = cap < 0 || target.children.length < cap;
+    final parent = screen.root.parentOf(target.id);
+    final index = parent == null ? 0 : parent.children.indexOf(target);
+    if (dragData.startsWith('new:')) {
+      final type = dragData.substring(4);
+      addWidget(
+        type,
+        parentId: into ? target.id : parent?.id,
+        index: into ? null : index,
+      );
+      return;
+    }
+    if (dragData == target.id) return;
+    if (parent == null && !into) return;
+    moveWidget(
+      dragData,
+      into ? target.id : parent!.id,
+      into ? target.children.length : index,
+    );
   }
 
   void moveWidget(String nodeId, String parentId, int index) {

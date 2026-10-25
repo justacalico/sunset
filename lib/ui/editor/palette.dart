@@ -61,17 +61,31 @@ class PalettePanel extends StatelessWidget {
             ),
           ),
           for (final def in entry.value)
-            Card(
-              margin: const EdgeInsets.symmetric(vertical: 2),
-              child: ListTile(
-                key: Key('palette.${def.type}'),
-                dense: true,
-                leading: Icon(
-                  paletteIcons[def.type] ?? Icons.widgets_outlined,
-                  size: 20,
+            Draggable<String>(
+              data: 'new:${def.type}',
+              feedback: Material(
+                elevation: 4,
+                borderRadius: BorderRadius.circular(6),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  child: Text(def.type, style: const TextStyle(fontSize: 13)),
                 ),
-                title: Text(def.type, style: const TextStyle(fontSize: 13)),
-                onTap: () => editor.addWidget(def.type),
+              ),
+              child: Card(
+                margin: const EdgeInsets.symmetric(vertical: 2),
+                child: ListTile(
+                  key: Key('palette.${def.type}'),
+                  dense: true,
+                  leading: Icon(
+                    paletteIcons[def.type] ?? Icons.widgets_outlined,
+                    size: 20,
+                  ),
+                  title: Text(def.type, style: const TextStyle(fontSize: 13)),
+                  onTap: () => editor.addWidget(def.type),
+                ),
               ),
             ),
         ],

@@ -13,56 +13,82 @@ class TreePanel extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final rows = <Widget>[];
 
-    void walk(WidgetNode node, int depth) {
+    Widget row(WidgetNode node, int depth) {
       final selected = node.id == editor.selectedId;
-      rows.add(
-        Material(
-          key: Key('tree.${node.id}'),
-          color: selected ? scheme.secondaryContainer : Colors.transparent,
-          child: InkWell(
-            onTap: () => editor.select(node.id),
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 8.0 + depth * 14,
-                top: 7,
-                bottom: 7,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.subdirectory_arrow_right,
-                    size: 12,
-                    color: depth == 0
-                        ? Colors.transparent
-                        : scheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      node.type,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: selected
-                            ? FontWeight.w600
-                            : FontWeight.normal,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Text(
-                    node.id,
+      final content = Material(
+        color: selected ? scheme.secondaryContainer : Colors.transparent,
+        child: InkWell(
+          onTap: () => editor.select(node.id),
+          child: Padding(
+            padding: EdgeInsets.only(left: 8.0 + depth * 14, top: 7, bottom: 7),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.subdirectory_arrow_right,
+                  size: 12,
+                  color: depth == 0
+                      ? Colors.transparent
+                      : scheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    node.type,
                     style: TextStyle(
-                      fontSize: 10,
-                      color: scheme.onSurfaceVariant,
+                      fontSize: 13,
+                      fontWeight: selected
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(width: 8),
-                ],
-              ),
+                ),
+                Text(
+                  node.id,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(width: 8),
+              ],
             ),
           ),
         ),
       );
+      final body = node.id == editor.screen.root.id
+          ? content
+          : Draggable<String>(
+              data: node.id,
+              feedback: Material(
+                elevation: 4,
+                borderRadius: BorderRadius.circular(6),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  child: Text(node.type, style: const TextStyle(fontSize: 13)),
+                ),
+              ),
+              childWhenDragging: Opacity(opacity: 0.4, child: content),
+              child: content,
+            );
+      return DragTarget<String>(
+        onAcceptWithDetails: (details) => editor.drop(details.data, node),
+        builder: (context, candidates, rejected) => Container(
+          decoration: candidates.isNotEmpty
+              ? BoxDecoration(
+                  border: Border.all(color: scheme.primary, width: 2),
+                )
+              : null,
+          child: body,
+        ),
+      );
+    }
+
+    void walk(WidgetNode node, int depth) {
+      rows.add(Container(key: Key('tree.${node.id}'), child: row(node, depth)));
       for (final c in node.children) {
         walk(c, depth + 1);
       }

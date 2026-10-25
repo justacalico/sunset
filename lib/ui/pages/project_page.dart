@@ -387,6 +387,7 @@ class _Canvas extends StatelessWidget {
             selectedId: editor.selectedId,
             responsive: editor.screen.responsive,
             onSelect: editor.select,
+            onDrop: editor.drop,
           ),
         ),
       ),

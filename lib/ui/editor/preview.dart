@@ -92,6 +92,7 @@ class NodePreview extends StatelessWidget {
   final ProjectScreen screen;
   final String? selectedId;
   final ValueChanged<String>? onSelect;
+  final void Function(String dragData, WidgetNode target)? onDrop;
   final bool responsive;
 
   const NodePreview({
@@ -100,6 +101,7 @@ class NodePreview extends StatelessWidget {
     required this.screen,
     this.selectedId,
     this.onSelect,
+    this.onDrop,
     this.responsive = false,
   });
 
@@ -148,6 +150,23 @@ class NodePreview extends StatelessWidget {
                 child: child,
               )
             : child,
+      );
+    }
+    if (onDrop != null && !flexChild) {
+      final inner = child;
+      child = DragTarget<String>(
+        onAcceptWithDetails: (details) => onDrop!(details.data, node),
+        builder: (context, candidates, rejected) => Container(
+          decoration: candidates.isNotEmpty
+              ? BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2,
+                  ),
+                )
+              : null,
+          child: inner,
+        ),
       );
     }
     return child;
