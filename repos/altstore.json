@@ -1,22 +1,35 @@
 {
   "name": "Sunset",
-  "identifier": "gitlab.httpanimations.sunset",
-  "subtitle": "Visual Flutter app builder",
-  "description": "Design Flutter apps visually. Place widgets on a canvas, style everything, export real Flutter projects.",
-  "iconURL": "https://gitlab.com/HttpAnimations/sunset/-/raw/main/assets/icon/icon_256.png",
-  "tintColor": "F3813F",
-  "category": "developer",
+  "subtitle": "A visual Flutter app builder",
+  "description": "Design Flutter apps on a canvas. Place widgets, style everything, manage locales and git, and export real code.",
+  "iconURL": "https://gitlab.com/HttpAnimations/sunset/-/raw/main/assets/icon/icon.png",
+  "website": "https://gitlab.com/HttpAnimations/sunset",
+  "sourceURL": "https://gitlab.com/HttpAnimations/sunset/-/raw/main/repos/altstore.json",
   "apps": [
     {
       "name": "Sunset",
       "bundleIdentifier": "gitlab.httpanimations.sunset",
       "developerName": "HttpAnimations",
-      "iconURL": "https://gitlab.com/HttpAnimations/sunset/-/raw/main/assets/icon/icon_256.png",
-      "tintColor": "F3813F",
-      "subtitle": "Visual Flutter app builder",
-      "localizedDescription": "Design Flutter apps visually. Place widgets on a canvas, style everything, export real Flutter projects.",
-      "screenshotURLs": [],
-      "versions": []
+      "subtitle": "A visual Flutter app builder",
+      "localizedDescription": "Design Flutter apps on a canvas. Place widgets, style everything, manage locales and git, and export real code.",
+      "iconURL": "https://gitlab.com/HttpAnimations/sunset/-/raw/main/assets/icon/icon.png",
+      "tintColor": "#F3813F",
+      "category": "development",
+      "screenshots": [],
+      "versions": [
+        {
+          "version": "0.0.1",
+          "date": "2026-10-25",
+          "localizedDescription": "See the release notes for changes.",
+          "downloadURL": "https://gitlab.com/HttpAnimations/sunset/-/releases/v0.0.1/downloads/sunset-0.0.1-ios.ipa",
+          "size": 8213786,
+          "minOSVersion": "14.0"
+        }
+      ],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {}
+      }
     }
   ],
   "news": []
