@@ -125,7 +125,8 @@ String _dir(CliIo io, _Args args) {
 }
 
 String _positionalDir(CliIo io, _Args args, {String? fallback}) {
-  final raw = args.opt('dir') ??
+  final raw =
+      args.opt('dir') ??
       (args.positional.isEmpty ? fallback : args.positional[0]) ??
       '.';
   if (raw.startsWith('/') || raw.startsWith('~') || raw.contains(':')) {
@@ -167,7 +168,8 @@ Future<int> _dispatch(List<String> argv, CliIo io) async {
     case 'create':
       args.required(0, 'project directory');
       final dir = _positionalDir(io, args);
-      final name = args.opt('name') ??
+      final name =
+          args.opt('name') ??
           dir.replaceAll('\\', '/').split('/').lastWhere((s) => s.isNotEmpty);
       if (await ProjectStore(io.fs).existsAt(dir)) {
         throw CliUsageException('a Sunset project already exists at $dir');
@@ -374,7 +376,9 @@ Future<int> _themeCmd(_Args args, CliIo io) async {
   final brightness = args.opt('brightness');
   if (brightness != null) {
     final mode = ThemeBrightness.values.asNameMap()[brightness];
-    if (mode == null) throw CliUsageException('invalid brightness: $brightness');
+    if (mode == null) {
+      throw CliUsageException('invalid brightness: $brightness');
+    }
     project.theme.brightness = mode;
   }
   final radius = args.opt('radius');

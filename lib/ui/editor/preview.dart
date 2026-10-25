@@ -165,10 +165,9 @@ class NodePreview extends StatelessWidget {
     final kids = <Widget>[];
     for (var i = 0; i < node.children.length; i++) {
       if (i > 0 && gap > 0) {
-        kids.add(SizedBox(
-          width: horizontal ? gap : 0,
-          height: horizontal ? 0 : gap,
-        ));
+        kids.add(
+          SizedBox(width: horizontal ? gap : 0, height: horizontal ? 0 : gap),
+        );
       }
       kids.add(buildNode(context, node.children[i]));
     }
@@ -192,8 +191,8 @@ class NodePreview extends StatelessWidget {
                     final pad = constraints.maxWidth > 900
                         ? 48.0
                         : constraints.maxWidth > 600
-                            ? 28.0
-                            : 16.0;
+                        ? 28.0
+                        : 16.0;
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: pad),
                       child: _only(context, node) ?? const SizedBox.shrink(),
@@ -222,11 +221,8 @@ class NodePreview extends StatelessWidget {
         );
       case 'stack':
         return Stack(
-          alignment:
-              alignmentMap['${p['alignment']}'] ?? Alignment.topLeft,
-          children: [
-            for (final c in node.children) buildNode(context, c),
-          ],
+          alignment: alignmentMap['${p['alignment']}'] ?? Alignment.topLeft,
+          children: [for (final c in node.children) buildNode(context, c)],
         );
       case 'center':
         return Center(child: _only(context, node));
@@ -293,9 +289,7 @@ class NodePreview extends StatelessWidget {
             crossAxisCount: _i(p['columns'], 2).clamp(1, 24),
             mainAxisSpacing: gap,
             crossAxisSpacing: gap,
-            children: [
-              for (final c in node.children) buildNode(context, c),
-            ],
+            children: [for (final c in node.children) buildNode(context, c)],
           ),
         );
       case 'divider':
@@ -352,34 +346,38 @@ class NodePreview extends StatelessWidget {
         final label = Text(_text(node, 'label', 'labelKey'));
         void noop() {}
         return switch ('${p['style'] ?? 'filled'}') {
-          'tonal' => icon.isEmpty
-              ? FilledButton.tonal(onPressed: noop, child: label)
-              : FilledButton.tonalIcon(
-                  onPressed: noop,
-                  icon: Icon(iconFor(icon)),
-                  label: label,
-                ),
-          'outlined' => icon.isEmpty
-              ? OutlinedButton(onPressed: noop, child: label)
-              : OutlinedButton.icon(
-                  onPressed: noop,
-                  icon: Icon(iconFor(icon)),
-                  label: label,
-                ),
-          'text' => icon.isEmpty
-              ? TextButton(onPressed: noop, child: label)
-              : TextButton.icon(
-                  onPressed: noop,
-                  icon: Icon(iconFor(icon)),
-                  label: label,
-                ),
-          _ => icon.isEmpty
-              ? FilledButton(onPressed: noop, child: label)
-              : FilledButton.icon(
-                  onPressed: noop,
-                  icon: Icon(iconFor(icon)),
-                  label: label,
-                ),
+          'tonal' =>
+            icon.isEmpty
+                ? FilledButton.tonal(onPressed: noop, child: label)
+                : FilledButton.tonalIcon(
+                    onPressed: noop,
+                    icon: Icon(iconFor(icon)),
+                    label: label,
+                  ),
+          'outlined' =>
+            icon.isEmpty
+                ? OutlinedButton(onPressed: noop, child: label)
+                : OutlinedButton.icon(
+                    onPressed: noop,
+                    icon: Icon(iconFor(icon)),
+                    label: label,
+                  ),
+          'text' =>
+            icon.isEmpty
+                ? TextButton(onPressed: noop, child: label)
+                : TextButton.icon(
+                    onPressed: noop,
+                    icon: Icon(iconFor(icon)),
+                    label: label,
+                  ),
+          _ =>
+            icon.isEmpty
+                ? FilledButton(onPressed: noop, child: label)
+                : FilledButton.icon(
+                    onPressed: noop,
+                    icon: Icon(iconFor(icon)),
+                    label: label,
+                  ),
         };
       case 'textField':
         final label = '${p['label'] ?? ''}';

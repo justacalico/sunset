@@ -59,12 +59,16 @@ Map<String, String> generateProject(SunsetProject project) {
   }
   files['lib/sunset_l10n.dart'] = _l10n(project);
   for (final screen in project.screens) {
-    files['lib/screens/${snakeName(screen.name)}.dart'] = _screen(project, screen);
+    files['lib/screens/${snakeName(screen.name)}.dart'] = _screen(
+      project,
+      screen,
+    );
   }
   return files;
 }
 
-String _pubspec(SunsetProject project) => '''
+String _pubspec(SunsetProject project) =>
+    '''
 name: ${snakeName(project.name)}
 description: "${project.description.replaceAll('"', '\\"')}"
 publish_to: 'none'
@@ -211,9 +215,10 @@ class _SunsetL10nDelegate extends LocalizationsDelegate<SunsetL10n> {
 }
 
 String _screen(SunsetProject project, ProjectScreen screen) {
-  final body = _emit(screen.root.children.isEmpty
-      ? null
-      : screen.root.children.first, 6);
+  final body = _emit(
+    screen.root.children.isEmpty ? null : screen.root.children.first,
+    6,
+  );
   final appBar = _bool(screen.root.props['showAppBar'], true)
       ? '''appBar: AppBar(
         title: Text(${_textOf(screen.root, 'title', 'titleKey')}),
@@ -257,7 +262,8 @@ class ${pascalName(screen.name)}Screen extends StatelessWidget {
 String _emit(WidgetNode? node, int indent) {
   if (node == null) return 'const SizedBox.shrink()';
   final p = node.props;
-  WidgetNode? childAt(int i) => i < node.children.length ? node.children[i] : null;
+  WidgetNode? childAt(int i) =>
+      i < node.children.length ? node.children[i] : null;
   final only = _emit(childAt(0), indent + 2);
   String many(String ctor, String joiner) {
     final kids = [for (final c in node.children) _emit(c, indent + 2)];
@@ -269,9 +275,9 @@ String _emit(WidgetNode? node, int indent) {
     final kids = <String>[];
     for (var i = 0; i < node.children.length; i++) {
       if (i > 0 && gap > 0) {
-        kids.add(horizontal
-            ? 'SizedBox(width: $gap)'
-            : 'SizedBox(height: $gap)');
+        kids.add(
+          horizontal ? 'SizedBox(width: $gap)' : 'SizedBox(height: $gap)',
+        );
       }
       kids.add(_emit(node.children[i], indent + 2));
     }
@@ -288,7 +294,10 @@ String _emit(WidgetNode? node, int indent) {
       final gap = _double(p['spacing']);
       return 'Row(mainAxisAlignment: MainAxisAlignment.${p['mainAxis'] ?? 'start'}, crossAxisAlignment: CrossAxisAlignment.${p['crossAxis'] ?? 'center'}, children: [${spaced(gap, true).map((k) => '\n${'  ' * (indent + 1)}$k').join(',')},\n${'  ' * indent}])';
     case 'stack':
-      return many('Stack', 'alignment: Alignment.${p['alignment'] ?? 'topLeft'}, ');
+      return many(
+        'Stack',
+        'alignment: Alignment.${p['alignment'] ?? 'topLeft'}, ',
+      );
     case 'center':
       return 'Center(child: $only)';
     case 'padding':
@@ -321,13 +330,19 @@ String _emit(WidgetNode? node, int indent) {
       final gap = _double(p['spacing']);
       final pad = _double(p['padding']);
       final h = _double(p['height']);
-      final list = 'ListView(${pad > 0 ? 'padding: EdgeInsets.all($pad), ' : ''}children: [${spaced(gap, false).map((k) => '\n${'  ' * (indent + 1)}$k').join(',')},\n${'  ' * indent}])';
-      return h > 0 ? 'SizedBox(height: $h, child: $list)' : 'Expanded(child: $list)';
+      final list =
+          'ListView(${pad > 0 ? 'padding: EdgeInsets.all($pad), ' : ''}children: [${spaced(gap, false).map((k) => '\n${'  ' * (indent + 1)}$k').join(',')},\n${'  ' * indent}])';
+      return h > 0
+          ? 'SizedBox(height: $h, child: $list)'
+          : 'Expanded(child: $list)';
     case 'gridView':
       final gap = _double(p['spacing'], 8);
       final h = _double(p['height']);
-      final grid = 'GridView.count(crossAxisCount: ${_int(p['columns'], 2).clamp(1, 24)}, mainAxisSpacing: $gap, crossAxisSpacing: $gap, children: [${node.children.map((c) => '\n${'  ' * (indent + 1)}${_emit(c, indent + 2)}').join(',')},\n${'  ' * indent}])';
-      return h > 0 ? 'SizedBox(height: $h, child: $grid)' : 'Expanded(child: $grid)';
+      final grid =
+          'GridView.count(crossAxisCount: ${_int(p['columns'], 2).clamp(1, 24)}, mainAxisSpacing: $gap, crossAxisSpacing: $gap, children: [${node.children.map((c) => '\n${'  ' * (indent + 1)}${_emit(c, indent + 2)}').join(',')},\n${'  ' * indent}])';
+      return h > 0
+          ? 'SizedBox(height: $h, child: $grid)'
+          : 'Expanded(child: $grid)';
     case 'divider':
       return 'Divider(thickness: ${_double(p['thickness'], 1)})';
     case 'spacer':

@@ -125,9 +125,7 @@ class _MiniTabs extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: i == index
-                            ? scheme.primary
-                            : Colors.transparent,
+                        color: i == index ? scheme.primary : Colors.transparent,
                         width: 2,
                       ),
                     ),
@@ -136,8 +134,9 @@ class _MiniTabs extends StatelessWidget {
                     labels[i],
                     style: TextStyle(
                       fontSize: 11,
-                      fontWeight:
-                          i == index ? FontWeight.w600 : FontWeight.normal,
+                      fontWeight: i == index
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                       color: i == index
                           ? scheme.primary
                           : scheme.onSurfaceVariant,
@@ -232,17 +231,14 @@ class _Toolbar extends StatelessWidget {
             onPressed: () async {
               await editor.save();
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.projectSaved)),
-                );
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(l10n.projectSaved)));
               }
             },
           ),
           SegmentedButton<DevicePreset>(
             key: const Key('editor.device'),
-            style: const ButtonStyle(
-              visualDensity: VisualDensity.compact,
-            ),
+            style: const ButtonStyle(visualDensity: VisualDensity.compact),
             segments: const [
               ButtonSegment(
                 value: DevicePreset.phone,
@@ -317,9 +313,7 @@ class _ScreenDialogState extends State<_ScreenDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return AlertDialog(
-      title: Text(
-        widget.rename == null ? l10n.addScreen : l10n.renameScreen,
-      ),
+      title: Text(widget.rename == null ? l10n.addScreen : l10n.renameScreen),
       content: TextField(
         key: const Key('screen.name'),
         controller: _name,

@@ -27,8 +27,10 @@ Future<ImportResult> importFlutterProject(Fs fs, String dir) async {
     throw const ImportException('not a Flutter project');
   }
 
-  final nameMatch = RegExp(r'^name:\s*(\S+)', multiLine: true)
-      .firstMatch(pubspec);
+  final nameMatch = RegExp(
+    r'^name:\s*(\S+)',
+    multiLine: true,
+  ).firstMatch(pubspec);
   final name = nameMatch?.group(1) ?? 'imported';
 
   final files = await fs.list('$dir/lib');
@@ -39,7 +41,8 @@ Future<ImportResult> importFlutterProject(Fs fs, String dir) async {
 
   final store = ProjectStore(fs);
   final existing = await store.tryLoad(dir);
-  final project = existing ??
+  final project =
+      existing ??
       SunsetProject(
         name: name,
         packageName: _packageOf(pubspec),

@@ -12,13 +12,8 @@ class T {
   final List<String> out = [];
   final List<String> err = [];
 
-  CliIo get io => CliIo(
-    fs: fs,
-    git: git.run,
-    out: out.add,
-    err: err.add,
-    cwd: '/work',
-  );
+  CliIo get io =>
+      CliIo(fs: fs, git: git.run, out: out.add, err: err.add, cwd: '/work');
 
   Future<int> run(List<String> args) => runCli(args, io: io);
 }
@@ -45,10 +40,16 @@ void main() {
     expect(t.out.join('\n'), contains('Home'));
 
     expect(await t.run(['screen', 'add', 'About', '--dir', 'apps/demo']), 0);
-    expect(await t.run(['screen', 'rename', 'About', 'Info', '--dir', 'apps/demo']), 0);
+    expect(
+      await t.run(['screen', 'rename', 'About', 'Info', '--dir', 'apps/demo']),
+      0,
+    );
     expect(await t.run(['screen', 'remove', 'Info', '--dir', 'apps/demo']), 0);
     expect(await t.run(['screen', 'remove', 'nope', '--dir', 'apps/demo']), 64);
-    expect(await t.run(['screen', 'rename', 'nope', 'x', '--dir', 'apps/demo']), 64);
+    expect(
+      await t.run(['screen', 'rename', 'nope', 'x', '--dir', 'apps/demo']),
+      64,
+    );
     expect(await t.run(['screen', 'remove', 'Home', '--dir', 'apps/demo']), 64);
     expect(await t.run(['screen', 'bogus', 'x', '--dir', 'apps/demo']), 64);
   });
@@ -78,13 +79,22 @@ void main() {
       64,
     );
 
-    expect(await t.run(['widget', 'set', textId, 'text', 'Hi', '--dir', 'p']), 0);
-    expect(await t.run(['widget', 'set', 'bad', 'text', 'Hi', '--dir', 'p']), 64);
+    expect(
+      await t.run(['widget', 'set', textId, 'text', 'Hi', '--dir', 'p']),
+      0,
+    );
+    expect(
+      await t.run(['widget', 'set', 'bad', 'text', 'Hi', '--dir', 'p']),
+      64,
+    );
     expect(
       await t.run(['widget', 'set', textId, 'size', 'notanum', '--dir', 'p']),
       64,
     );
-    expect(await t.run(['widget', 'set', textId, 'custom', 'v', '--dir', 'p']), 0);
+    expect(
+      await t.run(['widget', 'set', textId, 'custom', 'v', '--dir', 'p']),
+      0,
+    );
 
     await t.run(['widget', 'add', 'text', '--parent', colId, '--dir', 'p']);
     final other = t.out.last.split(' ').elementAt(2);
@@ -104,8 +114,14 @@ void main() {
     await t.run(['create', 'p', '--name', 'P']);
     expect(await t.run(['theme', 'set', '--color', 'FF0000', '--dir', 'p']), 0);
     expect(await t.run(['theme', 'set', '--color', 'xyz', '--dir', 'p']), 64);
-    expect(await t.run(['theme', 'set', '--brightness', 'dark', '--dir', 'p']), 0);
-    expect(await t.run(['theme', 'set', '--brightness', 'x', '--dir', 'p']), 64);
+    expect(
+      await t.run(['theme', 'set', '--brightness', 'dark', '--dir', 'p']),
+      0,
+    );
+    expect(
+      await t.run(['theme', 'set', '--brightness', 'x', '--dir', 'p']),
+      64,
+    );
     expect(await t.run(['theme', 'set', '--radius', '20', '--dir', 'p']), 0);
     expect(await t.run(['theme', 'bogus', '--dir', 'p']), 64);
     final p = await ProjectStore(t.fs).load('/work/p');
@@ -165,8 +181,10 @@ void main() {
 
   test('import command', () async {
     final t = T();
-    await t.fs.write('/work/vis/pubspec.yaml',
-        'name: vis\ndependencies:\n  flutter:\n    sdk: flutter\n');
+    await t.fs.write(
+      '/work/vis/pubspec.yaml',
+      'name: vis\ndependencies:\n  flutter:\n    sdk: flutter\n',
+    );
     await t.fs.write('/work/vis/lib/main.dart', '');
     expect(await t.run(['import', 'vis']), 0);
     expect(t.out.join('\n'), contains('imported vis'));

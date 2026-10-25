@@ -53,10 +53,7 @@ void main() {
       final prefs = await SharedPreferences.getInstance();
       final reg = await ProjectRegistry.load(prefs);
       expect(reg.entries, isEmpty);
-      await reg.add(
-        const ProjectEntry(name: 'A', path: '/a'),
-        prefs,
-      );
+      await reg.add(const ProjectEntry(name: 'A', path: '/a'), prefs);
       await reg.add(
         const ProjectEntry(name: 'A2', path: '/a', imported: true),
         prefs,
@@ -77,7 +74,9 @@ void main() {
       SharedPreferences.setMockInitialValues({'projects': '{"a":1}'});
       final bad2 = await SharedPreferences.getInstance();
       expect((await ProjectRegistry.load(bad2)).entries, isEmpty);
-      SharedPreferences.setMockInitialValues({'projects': '[1,"x",{"name":"n","path":"/p"}]'});
+      SharedPreferences.setMockInitialValues({
+        'projects': '[1,"x",{"name":"n","path":"/p"}]',
+      });
       final bad3 = await SharedPreferences.getInstance();
       expect((await ProjectRegistry.load(bad3)).entries.single.name, 'n');
     });
@@ -112,8 +111,10 @@ void main() {
 
     test('importProject scans flutter files', () async {
       final fs = MemFs();
-      await fs.write('/fp/pubspec.yaml',
-          'name: fp\ndependencies:\n  flutter:\n    sdk: flutter\n');
+      await fs.write(
+        '/fp/pubspec.yaml',
+        'name: fp\ndependencies:\n  flutter:\n    sdk: flutter\n',
+      );
       await fs.write('/fp/lib/main.dart', '');
       final state = await testState(fs: fs);
       await state.importProject('/fp');
@@ -122,8 +123,7 @@ void main() {
     });
 
     test('update check dedupes and caches', () async {
-      final checker = FakeVersionChecker()
-        ..gate = Completer<void>();
+      final checker = FakeVersionChecker()..gate = Completer<void>();
       final state = await testState(versionChecker: checker);
       final first = state.checkForUpdate();
       final second = state.checkForUpdate();
@@ -192,10 +192,7 @@ void main() {
       e.setProp(t1.id, 'text', 'hi');
       expect(t1.props['text'], 'hi');
       e.reorder(t2.id, -1);
-      expect(
-        col.children.map((c) => c.id).toList(),
-        [t2.id, t1.id],
-      );
+      expect(col.children.map((c) => c.id).toList(), [t2.id, t1.id]);
       e.reorder(t2.id, -1);
       e.reorder(t1.id, 1);
       e.reorder(t1.id, 1);
@@ -224,10 +221,12 @@ void main() {
       e.select(leaf.id);
       expect(e.addWidget('text'), isNull);
       e.select(null);
-      final col = e.addWidget('column') ?? (() {
-        // scaffold full; add to an unbounded node inside
-        return null;
-      })();
+      final col =
+          e.addWidget('column') ??
+          (() {
+            // scaffold full; add to an unbounded node inside
+            return null;
+          })();
       expect(col, isNull);
       final e2 = EditorState(
         project: SunsetProject.create('X'),
@@ -309,8 +308,7 @@ void main() {
         project: testProject(),
         dir: '/x',
         fs: MemFs(),
-        gitRun: (args, cwd) async =>
-            const ProcResult(128, '', 'no git'),
+        gitRun: (args, cwd) async => const ProcResult(128, '', 'no git'),
       );
       await notRepo.gitInit();
       expect(notRepo.gitError, contains('no git'));

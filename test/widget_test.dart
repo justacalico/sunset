@@ -12,15 +12,14 @@ import 'package:sunset/ui/shell/title_bar.dart';
 import 'fakes.dart';
 
 void main() {
-  testWidgets('app shell navigates between dashboard and settings',
-      (tester) async {
+  testWidgets('app shell navigates between dashboard and settings', (
+    tester,
+  ) async {
     final state = await testState();
     tester.view.physicalSize = const Size(1200, 800);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(
-      AppScope(state: state, child: const SunsetApp()),
-    );
+    await tester.pumpWidget(AppScope(state: state, child: const SunsetApp()));
     await tester.pumpAndSettle();
     expect(find.byType(DashboardPage), findsOneWidget);
     await tester.tap(find.text('Settings'));
@@ -36,9 +35,7 @@ void main() {
     tester.view.physicalSize = const Size(500, 800);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(
-      AppScope(state: state, child: const SunsetApp()),
-    );
+    await tester.pumpWidget(AppScope(state: state, child: const SunsetApp()));
     await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.menu));
     await tester.pumpAndSettle();
@@ -58,9 +55,9 @@ void main() {
     );
     expect(find.text('T'), findsOneWidget);
     final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
-    await mouse.addPointer(location: tester.getCenter(
-      find.byKey(const Key('titlebar.close')),
-    ));
+    await mouse.addPointer(
+      location: tester.getCenter(find.byKey(const Key('titlebar.close'))),
+    );
     await tester.pump();
     await tester.tap(find.byKey(const Key('titlebar.close')));
     await tester.tap(find.byKey(const Key('titlebar.minimize')));
@@ -101,16 +98,18 @@ void main() {
     expect(find.byKey(const Key('titlebar.close')), findsNothing);
   });
 
-  testWidgets('dashboard shows empty state and new project dialog',
-      (tester) async {
+  testWidgets('dashboard shows empty state and new project dialog', (
+    tester,
+  ) async {
     final fs = MemFs();
     String? picked;
-    final state = await testState(
-      fs: fs,
-      pickDir: () async => picked,
+    final state = await testState(fs: fs, pickDir: () async => picked);
+    await pumpPage(
+      tester,
+      state,
+      const DashboardPage(),
+      size: const Size(1100, 800),
     );
-    await pumpPage(tester, state, const DashboardPage(),
-        size: const Size(1100, 800));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('dashboard.new')), findsOneWidget);
 
@@ -144,16 +143,21 @@ void main() {
     expect(state.editor!.project.name, 'My App');
   });
 
-  testWidgets('dashboard lists projects, opens and removes them',
-      (tester) async {
+  testWidgets('dashboard lists projects, opens and removes them', (
+    tester,
+  ) async {
     final fs = MemFs();
     final state = await testState(fs: fs);
     await state.createProject('/one', 'One');
     state.closeProject();
     await state.createProject('/two', 'Two');
     state.closeProject();
-    await pumpPage(tester, state, const DashboardPage(),
-        size: const Size(1100, 800));
+    await pumpPage(
+      tester,
+      state,
+      const DashboardPage(),
+      size: const Size(1100, 800),
+    );
     await tester.pumpAndSettle();
     expect(find.text('One'), findsOneWidget);
     expect(find.text('Two'), findsOneWidget);
@@ -169,13 +173,19 @@ void main() {
 
   testWidgets('import project via picker', (tester) async {
     final fs = MemFs();
-    await fs.write('/ext/pubspec.yaml',
-        'name: ext\ndependencies:\n  flutter:\n    sdk: flutter\n');
+    await fs.write(
+      '/ext/pubspec.yaml',
+      'name: ext\ndependencies:\n  flutter:\n    sdk: flutter\n',
+    );
     await fs.write('/ext/lib/main.dart', '');
     var pick = '/ext';
     final state = await testState(fs: fs, pickDir: () async => pick);
-    await pumpPage(tester, state, const DashboardPage(),
-        size: const Size(1100, 800));
+    await pumpPage(
+      tester,
+      state,
+      const DashboardPage(),
+      size: const Size(1100, 800),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('dashboard.import')));
     await tester.pumpAndSettle();
@@ -187,8 +197,9 @@ void main() {
     expect(find.byType(SnackBar), findsOneWidget);
   });
 
-  testWidgets('settings page edits theme accent language and updates',
-      (tester) async {
+  testWidgets('settings page edits theme accent language and updates', (
+    tester,
+  ) async {
     final launches = <Uri>[];
     final checker = FakeVersionChecker()
       ..result = const AppUpdate(
@@ -197,12 +208,13 @@ void main() {
         updateAvailable: true,
         releaseUrl: 'https://example.com/r',
       );
-    final state = await testState(
-      versionChecker: checker,
-      launches: launches,
+    final state = await testState(versionChecker: checker, launches: launches);
+    await pumpPage(
+      tester,
+      state,
+      const SettingsPage(),
+      size: const Size(1100, 1000),
     );
-    await pumpPage(tester, state, const SettingsPage(),
-        size: const Size(1100, 1000));
     await tester.pumpAndSettle();
 
     await tester.tap(find.byKey(const Key('settings.theme')));
@@ -234,24 +246,27 @@ void main() {
 
     final failing = FakeVersionChecker()..error = Exception('x');
     final state2 = await testState(versionChecker: failing);
-    await pumpPage(tester, state2, const SettingsPage(),
-        size: const Size(1100, 1000));
+    await pumpPage(
+      tester,
+      state2,
+      const SettingsPage(),
+      size: const Size(1100, 1000),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('settings.checkUpdates')));
     await tester.pumpAndSettle();
   });
 
-  testWidgets('project open replaces shell body and back restores it',
-      (tester) async {
+  testWidgets('project open replaces shell body and back restores it', (
+    tester,
+  ) async {
     final fs = MemFs();
     final state = await testState(fs: fs);
     await state.createProject('/p', 'Proj');
     tester.view.physicalSize = const Size(1400, 900);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(
-      AppScope(state: state, child: const SunsetApp()),
-    );
+    await tester.pumpWidget(AppScope(state: state, child: const SunsetApp()));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('editor.back')), findsOneWidget);
     await tester.tap(find.byKey(const Key('editor.back')));

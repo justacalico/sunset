@@ -33,8 +33,9 @@ class WidgetNode {
     ],
   );
 
-  WidgetNode clone() =>
-      WidgetNode.fromJson(jsonDecode(jsonEncode(toJson())) as Map<String, dynamic>);
+  WidgetNode clone() => WidgetNode.fromJson(
+    jsonDecode(jsonEncode(toJson())) as Map<String, dynamic>,
+  );
 
   WidgetNode? find(String id) {
     if (this.id == id) return this;
@@ -97,9 +98,7 @@ class ProjectScreen {
     id: json['id'] as String,
     name: json['name'] as String,
     responsive: json['responsive'] as bool? ?? true,
-    root: WidgetNode.fromJson(
-      Map<String, dynamic>.from(json['root'] as Map),
-    ),
+    root: WidgetNode.fromJson(Map<String, dynamic>.from(json['root'] as Map)),
   );
 }
 
@@ -164,7 +163,8 @@ class SunsetProject {
     final project = SunsetProject(
       name: name,
       packageName:
-          packageName ?? 'com.example.${name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '')}',
+          packageName ??
+          'com.example.${name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '')}',
       description: 'A $name app built with Sunset.',
     );
     project.addScreen('Home');
@@ -197,7 +197,8 @@ class SunsetProject {
     messages: {
       for (final e in (json['messages'] as Map? ?? {}).entries)
         e.key as String: {
-          for (final m in (e.value as Map).entries) m.key as String: '${m.value}',
+          for (final m in (e.value as Map).entries)
+            m.key as String: '${m.value}',
         },
     },
     screens: [
@@ -224,10 +225,11 @@ class SunsetProject {
   }
 
   ProjectScreen addScreen(String name) {
-    final root = WidgetNode(id: _nextId('w'), type: 'scaffold', props: {
-      'title': name,
-      'showAppBar': true,
-    });
+    final root = WidgetNode(
+      id: _nextId('w'),
+      type: 'scaffold',
+      props: {'title': name, 'showAppBar': true},
+    );
     final screen = ProjectScreen(id: _nextId('s'), name: name, root: root);
     screens.add(screen);
     return screen;

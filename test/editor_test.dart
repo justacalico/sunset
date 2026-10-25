@@ -31,9 +31,7 @@ Future<EditorState> openEditor(
           GlobalCupertinoLocalizations.delegate,
         ],
         theme: ThemeData(fontFamily: 'Inter'),
-        home: Scaffold(
-          body: ProjectPage(editor: state.editor!),
-        ),
+        home: Scaffold(body: ProjectPage(editor: state.editor!)),
       ),
     ),
   );
@@ -48,23 +46,58 @@ void main() {
     await state.createProject('/p', 'P');
     final editor = await openEditor(tester, state);
     for (final type in [
-      'column', 'row', 'stack', 'center', 'padding', 'expanded', 'sizedBox',
-      'container', 'card', 'listView', 'gridView', 'divider', 'spacer',
-      'text', 'icon', 'image', 'circleAvatar', 'button', 'textField',
-      'switcher', 'checkbox', 'slider', 'progress',
+      'column',
+      'row',
+      'stack',
+      'center',
+      'padding',
+      'expanded',
+      'sizedBox',
+      'container',
+      'card',
+      'listView',
+      'gridView',
+      'divider',
+      'spacer',
+      'text',
+      'icon',
+      'image',
+      'circleAvatar',
+      'button',
+      'textField',
+      'switcher',
+      'checkbox',
+      'slider',
+      'progress',
     ]) {
       editor.addWidget(type);
       await tester.pump();
     }
-    final types = editor.screen.root
-        .walk()
-        .map((n) => n.type)
-        .toSet();
+    final types = editor.screen.root.walk().map((n) => n.type).toSet();
     for (final type in [
-      'column', 'row', 'stack', 'center', 'padding', 'expanded', 'sizedBox',
-      'container', 'card', 'listView', 'gridView', 'divider', 'spacer',
-      'text', 'icon', 'image', 'circleAvatar', 'button', 'textField',
-      'switcher', 'checkbox', 'slider', 'progress',
+      'column',
+      'row',
+      'stack',
+      'center',
+      'padding',
+      'expanded',
+      'sizedBox',
+      'container',
+      'card',
+      'listView',
+      'gridView',
+      'divider',
+      'spacer',
+      'text',
+      'icon',
+      'image',
+      'circleAvatar',
+      'button',
+      'textField',
+      'switcher',
+      'checkbox',
+      'slider',
+      'progress',
     ]) {
       expect(types, contains(type), reason: type);
     }
@@ -89,10 +122,7 @@ void main() {
     expect(editor.selectedId, text.id);
 
     // inspector: string prop
-    await tester.enterText(
-      find.byKey(const Key('prop.text')),
-      'Hello canvas',
-    );
+    await tester.enterText(find.byKey(const Key('prop.text')), 'Hello canvas');
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pumpAndSettle();
     expect(text.props['text'], 'Hello canvas');
@@ -141,8 +171,9 @@ void main() {
     expect(editor.screen.root.find(text.id), isNull);
   });
 
-  testWidgets('inspector empty state and icon/color/align editors',
-      (tester) async {
+  testWidgets('inspector empty state and icon/color/align editors', (
+    tester,
+  ) async {
     final state = await testState();
     await state.createProject('/p', 'P');
     final editor = await openEditor(tester, state);
@@ -190,18 +221,21 @@ void main() {
     await tester.pumpAndSettle();
     expect(editor.screen.id, home.id);
 
-    await tester.tap(find.byKey(Key('screen.${editor.project.screens.last.id}')));
+    await tester.tap(
+      find.byKey(Key('screen.${editor.project.screens.last.id}')),
+    );
     await tester.pumpAndSettle();
-    await tester.tap(find.descendant(
-      of: find.byKey(Key('screen.${editor.screen.id}')),
-      matching: find.byIcon(Icons.close),
-    ));
+    await tester.tap(
+      find.descendant(
+        of: find.byKey(Key('screen.${editor.screen.id}')),
+        matching: find.byIcon(Icons.close),
+      ),
+    );
     await tester.pumpAndSettle();
     expect(editor.project.screens, hasLength(1));
   });
 
-  testWidgets('device presets, preview brightness, undo, save',
-      (tester) async {
+  testWidgets('device presets, preview brightness, undo, save', (tester) async {
     final fs = MemFs();
     final state = await testState(fs: fs);
     await state.createProject('/p', 'P');
@@ -314,10 +348,7 @@ void main() {
     expect(find.text('lib/main.dart'), findsOneWidget);
     expect(find.text('initial commit'), findsOneWidget);
 
-    await tester.enterText(
-      find.byKey(const Key('git.message')),
-      'test commit',
-    );
+    await tester.enterText(find.byKey(const Key('git.message')), 'test commit');
     await tester.tap(find.byKey(const Key('git.commit')));
     await tester.pumpAndSettle();
     expect(git.calls.any((c) => c.first == 'commit'), isTrue);
@@ -336,16 +367,19 @@ void main() {
     expect(find.byType(SnackBar), findsOneWidget);
   });
 
-  testWidgets('preview renders bound strings and fallbacks',
-      (tester) async {
+  testWidgets('preview renders bound strings and fallbacks', (tester) async {
     final project = testProject();
     final screen = project.screens.first;
     final orphan = project.addWidget(screen.id, 'column').node!;
-    final text = project.addWidget(screen.id, 'text', parentId: orphan.id).node!;
+    final text = project
+        .addWidget(screen.id, 'text', parentId: orphan.id)
+        .node!;
     text.props['textKey'] = 'hello';
     text.props['text'] = 'fallback';
     orphan.children.add(WidgetNode(id: 'wx', type: 'mystery'));
-    final img = project.addWidget(screen.id, 'image', parentId: orphan.id).node!;
+    final img = project
+        .addWidget(screen.id, 'image', parentId: orphan.id)
+        .node!;
     img.props['url'] = 'https://example.com/x.png';
     expect(img.type, 'image');
     await tester.pumpWidget(

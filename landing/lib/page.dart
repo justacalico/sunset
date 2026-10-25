@@ -74,18 +74,12 @@ class LandingPage extends StatelessWidget {
                 value: _localeTag(locale),
                 underline: const SizedBox.shrink(),
                 items: [
-                  DropdownMenuItem(
-                    value: '',
-                    child: Text(l10n.languageSystem),
-                  ),
+                  DropdownMenuItem(value: '', child: Text(l10n.languageSystem)),
                   const DropdownMenuItem(
                     value: 'en_GB',
                     child: Text('Traditional English'),
                   ),
-                  const DropdownMenuItem(
-                    value: 'zh_Hans',
-                    child: Text('简体中文'),
-                  ),
+                  const DropdownMenuItem(value: 'zh_Hans', child: Text('简体中文')),
                   const DropdownMenuItem(value: 'ru', child: Text('Русский')),
                   const DropdownMenuItem(value: 'ga', child: Text('Gaeilge')),
                 ],

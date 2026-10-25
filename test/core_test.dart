@@ -7,6 +7,7 @@ import 'package:sunset/core/git_service.dart';
 import 'package:sunset/core/importer.dart';
 import 'package:sunset/core/model.dart';
 import 'package:sunset/core/store.dart';
+
 import 'dart:io';
 
 void main() {
@@ -100,12 +101,13 @@ void main() {
       expect(full.error, 'parent is full');
 
       final t1 = p.addWidget(screen.id, 'text', parentId: colId).node!;
-      final t2 =
-          p.addWidget(screen.id, 'text', parentId: colId, index: 0).node!;
-      expect(
-        screen.root.find(colId)!.children.map((c) => c.id).toList(),
-        [t2.id, t1.id],
-      );
+      final t2 = p
+          .addWidget(screen.id, 'text', parentId: colId, index: 0)
+          .node!;
+      expect(screen.root.find(colId)!.children.map((c) => c.id).toList(), [
+        t2.id,
+        t1.id,
+      ]);
 
       expect(p.setProp(screen.id, t1.id, 'text', 'hi'), isTrue);
       expect(t1.props['text'], 'hi');
@@ -113,16 +115,13 @@ void main() {
       expect(p.setProp(screen.id, 'nope', 'x', 'y'), isFalse);
 
       expect(p.moveWidget(screen.id, t1.id, index: 0), isTrue);
-      expect(
-        screen.root.find(colId)!.children.map((c) => c.id).toList(),
-        [t1.id, t2.id],
-      );
+      expect(screen.root.find(colId)!.children.map((c) => c.id).toList(), [
+        t1.id,
+        t2.id,
+      ]);
       expect(p.moveWidget(screen.id, 'nope', index: 0), isFalse);
       expect(p.moveWidget(screen.id, screen.root.id), isFalse);
-      expect(
-        p.moveWidget(screen.id, colId, parentId: t1.id),
-        isFalse,
-      );
+      expect(p.moveWidget(screen.id, colId, parentId: t1.id), isFalse);
       expect(p.removeWidget(screen.id, screen.root.id), isFalse);
       expect(p.removeWidget('nope', t1.id), isFalse);
       expect(p.removeWidget(screen.id, t1.id), isTrue);
@@ -171,10 +170,7 @@ void main() {
     });
 
     test('parsePropValue', () {
-      expect(
-        parsePropValue(const PropDef('x', PropKind.int, 0), '42'),
-        42,
-      );
+      expect(parsePropValue(const PropDef('x', PropKind.int, 0), '42'), 42);
       expect(parsePropValue(const PropDef('x', PropKind.int, 0), 'no'), isNull);
       expect(
         parsePropValue(const PropDef('x', PropKind.double, 0), '1.5'),
@@ -277,8 +273,15 @@ void main() {
           n.props[prop.name] = prop.value;
         }
       }
-      for (final holder in ['stack', 'center', 'padding', 'expanded',
-          'sizedBox', 'container', 'card']) {
+      for (final holder in [
+        'stack',
+        'center',
+        'padding',
+        'expanded',
+        'sizedBox',
+        'container',
+        'card',
+      ]) {
         final target = col.children.firstWhere((n) => n.type == holder);
         final n = p.addWidget(screen.id, 'text', parentId: target.id).node!;
         for (final prop in widgetDef('text')!.props) {
@@ -293,14 +296,17 @@ void main() {
 
     test('generates a full project', () {
       final files = generateProject(buildProject());
-      expect(files.keys, containsAll([
-        'pubspec.yaml',
-        'lib/main.dart',
-        'lib/sunset_l10n.dart',
-        'lib/screens/home.dart',
-        'analysis_options.yaml',
-        '.gitignore',
-      ]));
+      expect(
+        files.keys,
+        containsAll([
+          'pubspec.yaml',
+          'lib/main.dart',
+          'lib/sunset_l10n.dart',
+          'lib/screens/home.dart',
+          'analysis_options.yaml',
+          '.gitignore',
+        ]),
+      );
       expect(files['pubspec.yaml'], contains('name: demo_app'));
       expect(files['lib/main.dart'], contains('DemoApp'));
       expect(files['lib/main.dart'], contains('ThemeMode.system'));
@@ -308,7 +314,10 @@ void main() {
       expect(files['lib/sunset_l10n.dart'], contains('Hi'));
       expect(files['lib/screens/home.dart'], contains('Scaffold'));
       expect(files['lib/screens/home.dart'], contains('LayoutBuilder'));
-      expect(files['lib/screens/home.dart'], contains('SunsetL10n.of(context)'));
+      expect(
+        files['lib/screens/home.dart'],
+        contains('SunsetL10n.of(context)'),
+      );
     });
 
     test('imported project skips host files', () {
@@ -339,7 +348,10 @@ void main() {
       p.screens.last.root.props['showAppBar'] = false;
       final files = generateProject(p);
       expect(files.keys, contains('lib/screens/second_page.dart'));
-      expect(files['lib/screens/second_page.dart'], contains('SecondPageScreen'));
+      expect(
+        files['lib/screens/second_page.dart'],
+        contains('SecondPageScreen'),
+      );
       expect(files['lib/screens/second_page.dart'], isNot(contains('appBar')));
       expect(files['lib/sunset_l10n.dart'], contains('zh'));
       expect(files['lib/sunset_l10n.dart'], contains('你好'));
@@ -447,15 +459,20 @@ void main() {
   group('importer', () {
     test('imports a real flutter project layout', () async {
       final fs = MemFs();
-      await fs.write('/app/pubspec.yaml',
-          'name: cool_app\ndependencies:\n  flutter:\n    sdk: flutter\n');
+      await fs.write(
+        '/app/pubspec.yaml',
+        'name: cool_app\ndependencies:\n  flutter:\n    sdk: flutter\n',
+      );
       await fs.write('/app/lib/main.dart', 'void main() {}');
       await fs.write('/app/lib/src/thing.dart', 'class Thing {}');
       await fs.write('/app/lib/readme.txt', 'not dart');
       final result = await importFlutterProject(fs, '/app');
       expect(result.project.name, 'cool_app');
       expect(result.project.imported, isTrue);
-      expect(result.dartFiles, containsAll(['lib/main.dart', 'lib/src/thing.dart']));
+      expect(
+        result.dartFiles,
+        containsAll(['lib/main.dart', 'lib/src/thing.dart']),
+      );
       expect(await fs.exists('/app/project.sunset.json'), isTrue);
       final again = await importFlutterProject(fs, '/app');
       expect(again.project.screens, hasLength(1));
@@ -463,11 +480,15 @@ void main() {
 
     test('rejects non-flutter and missing pubspec', () async {
       final fs = MemFs();
-      expect(() => importFlutterProject(fs, '/none'),
-          throwsA(isA<ImportException>()));
+      expect(
+        () => importFlutterProject(fs, '/none'),
+        throwsA(isA<ImportException>()),
+      );
       await fs.write('/x/pubspec.yaml', 'name: plain\n');
-      expect(() => importFlutterProject(fs, '/x'),
-          throwsA(isA<ImportException>()));
+      expect(
+        () => importFlutterProject(fs, '/x'),
+        throwsA(isA<ImportException>()),
+      );
     });
   });
 
@@ -476,13 +497,19 @@ void main() {
         (args, cwd) async => answers[args.first] ?? const ProcResult(0, '', '');
 
     test('isRepo/init/status/log/branch/commit', () async {
-      final git = GitService(fake({
-        'rev-parse': const ProcResult(0, 'true\n', ''),
-        'init': const ProcResult(0, '', ''),
-        'status': const ProcResult(0, ' M a.dart\n?? b.txt\n', ''),
-        'log': const ProcResult(0, 'abc1234\x1finitial\x1f2026-01-01\nbad\n', ''),
-        'branch': const ProcResult(0, 'main\n', ''),
-      }));
+      final git = GitService(
+        fake({
+          'rev-parse': const ProcResult(0, 'true\n', ''),
+          'init': const ProcResult(0, '', ''),
+          'status': const ProcResult(0, ' M a.dart\n?? b.txt\n', ''),
+          'log': const ProcResult(
+            0,
+            'abc1234\x1finitial\x1f2026-01-01\nbad\n',
+            '',
+          ),
+          'branch': const ProcResult(0, 'main\n', ''),
+        }),
+      );
       expect(await git.isRepo('/r'), isTrue);
       await git.init('/r');
       final files = await git.status('/r');
@@ -498,11 +525,13 @@ void main() {
     });
 
     test('not a repo and failures', () async {
-      final git = GitService(fake({
-        'rev-parse': const ProcResult(128, '', 'fatal'),
-        'status': const ProcResult(1, '', ''),
-        'init': const ProcResult(128, '', 'boom'),
-      }));
+      final git = GitService(
+        fake({
+          'rev-parse': const ProcResult(128, '', 'fatal'),
+          'status': const ProcResult(1, '', ''),
+          'init': const ProcResult(128, '', 'boom'),
+        }),
+      );
       expect(await git.isRepo('/x'), isFalse);
       expect(() => git.init('/x'), throwsA(isA<GitException>()));
       expect(() => git.status('/x'), throwsA(isA<GitException>()));

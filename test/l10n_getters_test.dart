@@ -4,7 +4,12 @@ import 'package:sunset/l10n/app_localizations.dart';
 import 'package:sunset/state/settings_store.dart';
 
 void main() {
-  for (final locale in [...supportedLocales, const Locale('zh'), const Locale('en'), const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans')]) {
+  for (final locale in [
+    ...supportedLocales,
+    const Locale('zh'),
+    const Locale('en'),
+    const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
+  ]) {
     test('all getters resolve for \${locale.toLanguageTag()}', () {
       final l10n = lookupAppLocalizations(locale);
       expect(l10n.appTitle, isNotNull);
@@ -82,9 +87,15 @@ void main() {
   }
 
   test('delegate and lookup fallbacks', () {
-    expect(AppLocalizations.delegate.isSupported(const Locale('en', 'GB')), isTrue);
+    expect(
+      AppLocalizations.delegate.isSupported(const Locale('en', 'GB')),
+      isTrue,
+    );
     expect(AppLocalizations.delegate.isSupported(const Locale('xx')), isFalse);
-    expect(AppLocalizations.delegate.shouldReload(AppLocalizations.delegate), isFalse);
+    expect(
+      AppLocalizations.delegate.shouldReload(AppLocalizations.delegate),
+      isFalse,
+    );
     expect(lookupAppLocalizations(const Locale('en')).appTitle, 'Sunset');
     expect(lookupAppLocalizations(const Locale('zh')).appTitle, isNotEmpty);
   });

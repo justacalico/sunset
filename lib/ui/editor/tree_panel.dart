@@ -22,7 +22,11 @@ class TreePanel extends StatelessWidget {
           child: InkWell(
             onTap: () => editor.select(node.id),
             child: Padding(
-              padding: EdgeInsets.only(left: 8.0 + depth * 14, top: 7, bottom: 7),
+              padding: EdgeInsets.only(
+                left: 8.0 + depth * 14,
+                top: 7,
+                bottom: 7,
+              ),
               child: Row(
                 children: [
                   Icon(
@@ -38,8 +42,9 @@ class TreePanel extends StatelessWidget {
                       node.type,
                       style: TextStyle(
                         fontSize: 13,
-                        fontWeight:
-                            selected ? FontWeight.w600 : FontWeight.normal,
+                        fontWeight: selected
+                            ? FontWeight.w600
+                            : FontWeight.normal,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),

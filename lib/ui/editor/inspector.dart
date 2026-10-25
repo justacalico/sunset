@@ -134,9 +134,7 @@ class _PropEditor extends StatelessWidget {
           onChanged: _set,
         );
       case PropKind.enumProp || PropKind.align || PropKind.icon:
-        final items = prop.kind == PropKind.icon
-            ? prop.options
-            : prop.options;
+        final items = prop.kind == PropKind.icon ? prop.options : prop.options;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -196,12 +194,12 @@ class _PropEditor extends StatelessWidget {
                               color: scheme.onSurfaceVariant,
                             )
                           : current == color
-                              ? const Icon(
-                                  Icons.check,
-                                  size: 14,
-                                  color: Colors.white,
-                                )
-                              : null,
+                          ? const Icon(
+                              Icons.check,
+                              size: 14,
+                              color: Colors.white,
+                            )
+                          : null,
                     ),
                   ),
               ],

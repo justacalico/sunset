@@ -107,7 +107,9 @@ class _PackageFieldState extends State<_PackageField> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.editor.project.packageName);
+    _controller = TextEditingController(
+      text: widget.editor.project.packageName,
+    );
   }
 
   @override
@@ -365,11 +367,7 @@ class _KeyDialogState extends State<_KeyDialog> {
   void _add() {
     final key = _key.text.trim();
     if (key.isEmpty) return;
-    widget.editor.setMessage(
-      key,
-      widget.editor.baseLocale,
-      '',
-    );
+    widget.editor.setMessage(key, widget.editor.baseLocale, '');
     Navigator.of(context).pop();
   }
 

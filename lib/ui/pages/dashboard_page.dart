@@ -18,9 +18,8 @@ class DashboardPage extends StatelessWidget {
     final dir = await state.pickDir?.call();
     if (dir == null) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.noDirectoryPicked)),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(l10n.noDirectoryPicked)));
       }
       return;
     }
@@ -48,9 +47,8 @@ class DashboardPage extends StatelessWidget {
       await state.importProject(dir);
     } on ImportException {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.notFlutterProject)),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(l10n.notFlutterProject)));
       }
     } catch (e) {
       if (context.mounted) {

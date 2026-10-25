@@ -15,9 +15,7 @@ void main() {
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.reset);
       await state.settings.setLocale(locale, state.prefs);
-      await tester.pumpWidget(
-        AppScope(state: state, child: const SunsetApp()),
-      );
+      await tester.pumpWidget(AppScope(state: state, child: const SunsetApp()));
       await tester.pumpAndSettle();
       expect(find.byType(MaterialApp), findsOneWidget);
       state.selectTab(1);

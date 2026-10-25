@@ -22,6 +22,7 @@ import 'package:sunset/ui/shell/side_nav.dart';
 
 import 'editor_test.dart' show openEditor;
 import 'fakes.dart';
+
 import 'package:sunset/ui/pages/dashboard_page.dart';
 import 'package:sunset/ui/pages/settings_page.dart';
 
@@ -51,8 +52,10 @@ void main() {
   });
 
   test('CliUsageException is throwable', () {
-    expect(() => throw const CliUsageException('m'),
-        throwsA(isA<CliUsageException>()));
+    expect(
+      () => throw const CliUsageException('m'),
+      throwsA(isA<CliUsageException>()),
+    );
   });
 
   test('MemFs normalize edge cases', () async {
@@ -71,9 +74,7 @@ void main() {
   testWidgets('oled material app', (tester) async {
     final state = await testState();
     await state.settings.setTheme(AppTheme.oled, state.prefs);
-    await tester.pumpWidget(
-      AppScope(state: state, child: const SunsetApp()),
-    );
+    await tester.pumpWidget(AppScope(state: state, child: const SunsetApp()));
     await tester.pumpAndSettle();
     final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(app.darkTheme!.scaffoldBackgroundColor, Colors.black);
@@ -81,23 +82,25 @@ void main() {
 
   testWidgets('SideNav footer item', (tester) async {
     var tapped = false;
-    await tester.pumpWidget(MaterialApp(
-      home: Scaffold(
-        body: Row(
-          children: [
-            SideNav(
-              selectedIndex: 0,
-              onSelected: (_) {},
-              destinations: const [
-                (icon: Icons.home, selectedIcon: Icons.home, label: 'Home'),
-              ],
-              footerLabel: 'New',
-              onFooter: () => tapped = true,
-            ),
-          ],
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Row(
+            children: [
+              SideNav(
+                selectedIndex: 0,
+                onSelected: (_) {},
+                destinations: const [
+                  (icon: Icons.home, selectedIcon: Icons.home, label: 'Home'),
+                ],
+                footerLabel: 'New',
+                onFooter: () => tapped = true,
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
     await tester.tap(find.text('New'));
     expect(tapped, isTrue);
   });
@@ -135,11 +138,8 @@ void main() {
     final p = testProject();
     final screen = p.screens.first;
     final col = p.addWidget(screen.id, 'column').node!;
-    WidgetNode add(String type, Map<String, Object?> props,
-        {String? parent}) {
-      final n = p
-          .addWidget(screen.id, type, parentId: parent ?? col.id)
-          .node!;
+    WidgetNode add(String type, Map<String, Object?> props, {String? parent}) {
+      final n = p.addWidget(screen.id, type, parentId: parent ?? col.id).node!;
       n.props.addAll(props);
       return n;
     }
@@ -170,9 +170,11 @@ void main() {
     tester.view.physicalSize = const Size(500, 4000);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(MaterialApp(
-      home: NodePreview(project: p, screen: screen),
-    ));
+    await tester.pumpWidget(
+      MaterialApp(
+        home: NodePreview(project: p, screen: screen),
+      ),
+    );
     await tester.pumpAndSettle(const Duration(seconds: 3));
   });
 
@@ -182,7 +184,9 @@ void main() {
     final img = p.addWidget(screen.id, 'image').node!;
     img.props['url'] = 'https://bad.invalid/x.png';
     await tester.pumpWidget(
-      MaterialApp(home: NodePreview(project: p, screen: screen)),
+      MaterialApp(
+        home: NodePreview(project: p, screen: screen),
+      ),
     );
     await tester.pumpAndSettle(const Duration(seconds: 3));
     expect(find.byIcon(Icons.broken_image_outlined), findsOneWidget);
@@ -241,15 +245,17 @@ void main() {
   testWidgets('AppScope.read works', (tester) async {
     final state = await testState();
     late AppState found;
-    await tester.pumpWidget(AppScope(
-      state: state,
-      child: Builder(
-        builder: (context) {
-          found = AppScope.read(context);
-          return const SizedBox();
-        },
+    await tester.pumpWidget(
+      AppScope(
+        state: state,
+        child: Builder(
+          builder: (context) {
+            found = AppScope.read(context);
+            return const SizedBox();
+          },
+        ),
       ),
-    ));
+    );
     expect(found, same(state));
   });
 
@@ -274,13 +280,15 @@ void main() {
     final editor = state.editor!;
     final t = editor.addWidget('text')!;
     editor.select(null);
-    await tester.pumpWidget(MaterialApp(
-      home: NodePreview(
-        project: editor.project,
-        screen: editor.screen,
-        onSelect: editor.select,
+    await tester.pumpWidget(
+      MaterialApp(
+        home: NodePreview(
+          project: editor.project,
+          screen: editor.screen,
+          onSelect: editor.select,
+        ),
       ),
-    ));
+    );
     await tester.tap(find.byType(Text).first);
     expect(editor.selectedId, t.id);
   });
@@ -295,7 +303,9 @@ void main() {
       n.props['label'] = 'L';
     }
     await tester.pumpWidget(
-      MaterialApp(home: NodePreview(project: p, screen: screen)),
+      MaterialApp(
+        home: NodePreview(project: p, screen: screen),
+      ),
     );
     await tester.tap(find.byType(Switch).first);
     await tester.tap(find.byType(Checkbox).first);
@@ -310,8 +320,12 @@ void main() {
     final col = editor.addWidget('column')!;
     col.children.add(WidgetNode(id: 'myst', type: 'mystery'));
     editor.select('myst');
-    await pumpPage(tester, state,
-        InspectorPanel(editor: editor), size: const Size(400, 800));
+    await pumpPage(
+      tester,
+      state,
+      InspectorPanel(editor: editor),
+      size: const Size(400, 800),
+    );
     await tester.pumpAndSettle();
     expect(find.textContaining('nknown'), findsOneWidget);
     final t = editor.addWidget('text', parentId: col.id)!;
@@ -331,8 +345,12 @@ void main() {
       );
     final state = await testState(versionChecker: checker);
     await state.checkForUpdate();
-    await pumpPage(tester, state,
-        const SettingsPage(), size: const Size(1100, 1000));
+    await pumpPage(
+      tester,
+      state,
+      const SettingsPage(),
+      size: const Size(1100, 1000),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('settings.checkUpdates')));
     await tester.pumpAndSettle();
@@ -341,13 +359,19 @@ void main() {
   testWidgets('dashboard generic error snackbars', (tester) async {
     final fs = _FailOnSaveFs();
     final state = await testState(fs: fs, pickDir: () async => '/x');
-    await pumpPage(tester, state, const DashboardPage(),
-        size: const Size(1100, 800));
+    await pumpPage(
+      tester,
+      state,
+      const DashboardPage(),
+      size: const Size(1100, 800),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('dashboard.new')));
     await tester.pumpAndSettle();
     await tester.enterText(
-        find.byKey(const Key('dashboard.projectName')), 'Bad');
+      find.byKey(const Key('dashboard.projectName')),
+      'Bad',
+    );
     await tester.tap(find.byKey(const Key('dashboard.createConfirm')));
     await tester.pumpAndSettle();
     expect(find.byType(SnackBar), findsOneWidget);
@@ -364,9 +388,7 @@ void main() {
     tester.view.physicalSize = const Size(1400, 900);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(
-      AppScope(state: state, child: const SunsetApp()),
-    );
+    await tester.pumpWidget(AppScope(state: state, child: const SunsetApp()));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Settings'));
     await tester.pumpAndSettle();
@@ -414,10 +436,17 @@ void main() {
 
   testWidgets('import generic error snackbar', (tester) async {
     final fs = _FailListFs();
-    await fs.write('/imp/pubspec.yaml', 'name: x\nenvironment:\n  sdk: ^3.0.0\ndependencies:\n  flutter:\n    sdk: flutter');
+    await fs.write(
+      '/imp/pubspec.yaml',
+      'name: x\nenvironment:\n  sdk: ^3.0.0\ndependencies:\n  flutter:\n    sdk: flutter',
+    );
     final state = await testState(fs: fs, pickDir: () async => '/imp');
-    await pumpPage(tester, state, const DashboardPage(),
-        size: const Size(1100, 800));
+    await pumpPage(
+      tester,
+      state,
+      const DashboardPage(),
+      size: const Size(1100, 800),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('dashboard.import')));
     await tester.pumpAndSettle();
@@ -431,9 +460,7 @@ void main() {
     tester.view.physicalSize = const Size(1400, 900);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
-    await tester.pumpWidget(
-      AppScope(state: state, child: const SunsetApp()),
-    );
+    await tester.pumpWidget(AppScope(state: state, child: const SunsetApp()));
     await tester.pumpAndSettle();
     expect(find.text('Proj'), findsWidgets);
     state.openProject('/p');
@@ -453,7 +480,9 @@ void main() {
       n.props['label'] = 'B';
     }
     await tester.pumpWidget(
-      MaterialApp(home: NodePreview(project: p, screen: screen)),
+      MaterialApp(
+        home: NodePreview(project: p, screen: screen),
+      ),
     );
     await tester.pump();
     await tester.tap(find.text('B').first);
@@ -465,8 +494,12 @@ void main() {
     await state.createProject('/p', 'P');
     final editor = state.editor!;
     editor.setMessage('welcome', 'en_GB', '');
-    await pumpPage(tester, state, StringsPanel(editor: editor),
-        size: const Size(500, 700));
+    await pumpPage(
+      tester,
+      state,
+      StringsPanel(editor: editor),
+      size: const Size(500, 700),
+    );
     await tester.pumpAndSettle();
     final key = const Key('strings.field.welcome.en_GB');
     await tester.enterText(find.byKey(key), 'Hola');
@@ -485,8 +518,12 @@ void main() {
     await state.createProject('/p', 'P');
     final editor = state.editor!;
     editor.gitRepo = true;
-    await pumpPage(tester, state, GitPanel(editor: editor),
-        size: const Size(500, 700));
+    await pumpPage(
+      tester,
+      state,
+      GitPanel(editor: editor),
+      size: const Size(500, 700),
+    );
     await tester.pumpAndSettle();
     await tester.enterText(find.byKey(const Key('git.message')), 'first');
     await tester.testTextInput.receiveAction(TextInputAction.done);
@@ -512,8 +549,12 @@ void main() {
 
   testWidgets('checking spinner state', (tester) async {
     final state = await testState(versionChecker: _SlowChecker());
-    await pumpPage(tester, state, const SettingsPage(),
-        size: const Size(1100, 1000));
+    await pumpPage(
+      tester,
+      state,
+      const SettingsPage(),
+      size: const Size(1100, 1000),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('settings.checkUpdates')));
     await tester.pump();
@@ -532,10 +573,7 @@ void main() {
     await runCli(['create', '/w', 'P'], io: io);
     lines.clear();
     await runCli(['theme', 'set', '--primary=0xFF00FF00'], io: io);
-    await runCli(
-      ['widget', 'add', 'text', '--index', 'abc'],
-      io: io,
-    );
+    await runCli(['widget', 'add', 'text', '--index', 'abc'], io: io);
   });
 
   test('undo after screen removal resets screen', () async {
@@ -553,8 +591,12 @@ void main() {
   testWidgets('palette tile tap adds widget', (tester) async {
     final state = await testState();
     await state.createProject('/p', 'P');
-    await pumpPage(tester, state,
-        PalettePanel(editor: state.editor!), size: const Size(400, 1200));
+    await pumpPage(
+      tester,
+      state,
+      PalettePanel(editor: state.editor!),
+      size: const Size(400, 1200),
+    );
     await tester.tap(find.text('text').first);
     expect(state.editor!.screen.root.find('w1'), isNotNull);
   });
@@ -562,15 +604,17 @@ void main() {
   testWidgets('package field tap outside', (tester) async {
     final state = await testState();
     await state.createProject('/p', 'P');
-    await pumpPage(tester, state,
-        ThemePanel(editor: state.editor!),
-        size: const Size(400, 800));
+    await pumpPage(
+      tester,
+      state,
+      ThemePanel(editor: state.editor!),
+      size: const Size(400, 800),
+    );
     await tester.enterText(find.byKey(const Key('theme.package')), 'com.z.z');
     await tester.tapAt(const Offset(10, 10));
     await tester.pumpAndSettle();
     expect(state.editor!.project.packageName, 'com.z.z');
   });
-
 
   test('unsupported locale falls to FlutterError', () {
     expect(
@@ -605,13 +649,19 @@ void main() {
     await state.createProject('/p', 'P');
     final editor = state.editor!;
     editor.setMessage('welcome', 'en_GB', '');
-    await pumpPage(tester, state, StringsPanel(editor: editor),
-        size: const Size(500, 700));
+    await pumpPage(
+      tester,
+      state,
+      StringsPanel(editor: editor),
+      size: const Size(500, 700),
+    );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('strings.addKey')));
     await tester.pumpAndSettle();
     await tester.enterText(
-        find.byKey(const Key('strings.keyName')), 'viaSubmit');
+      find.byKey(const Key('strings.keyName')),
+      'viaSubmit',
+    );
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pumpAndSettle();
     expect(editor.project.messages.containsKey('viaSubmit'), isTrue);
@@ -632,17 +682,26 @@ void main() {
       cwd: '/w',
     );
     await runCli(['create', '/w', 'P'], io: io);
-    await runCli(
-      ['theme', 'set', '--dir', '/w', '--color', '0xFF112233', '--bogus'],
-      io: io,
-    );
-    await runCli(
-      ['widget', 'add', 'text', '--dir', '/w', '--index', 'abc'],
-      io: io,
-    );
+    await runCli([
+      'theme',
+      'set',
+      '--dir',
+      '/w',
+      '--color',
+      '0xFF112233',
+      '--bogus',
+    ], io: io);
+    await runCli([
+      'widget',
+      'add',
+      'text',
+      '--dir',
+      '/w',
+      '--index',
+      'abc',
+    ], io: io);
     expect(lines.join('\n'), isNotEmpty);
   });
-
 }
 
 class _FailOnSaveFs extends MemFs {

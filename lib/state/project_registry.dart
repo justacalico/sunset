@@ -47,8 +47,7 @@ class ProjectRegistry extends ChangeNotifier {
       if (decoded is! List) return ProjectRegistry();
       return ProjectRegistry([
         for (final e in decoded)
-          if (e is Map)
-            ProjectEntry.fromJson(Map<String, dynamic>.from(e)),
+          if (e is Map) ProjectEntry.fromJson(Map<String, dynamic>.from(e)),
       ]);
     } catch (_) {
       return ProjectRegistry();
@@ -75,7 +74,10 @@ class ProjectRegistry extends ChangeNotifier {
   }
 
   Future<void> remove(String path, SharedPreferences prefs) async {
-    _entries = [for (final e in _entries) if (e.path != path) e];
+    _entries = [
+      for (final e in _entries)
+        if (e.path != path) e,
+    ];
     notifyListeners();
     await _persist(prefs);
   }

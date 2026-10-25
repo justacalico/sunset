@@ -40,9 +40,11 @@ class GitService {
   Future<ProcResult> _git(String cwd, List<String> args) async {
     final result = await run(args, cwd);
     if (result.code != 0) {
-      throw GitException(result.err.trim().isEmpty
-          ? 'git ${args.join(' ')} exited ${result.code}'
-          : result.err.trim());
+      throw GitException(
+        result.err.trim().isEmpty
+            ? 'git ${args.join(' ')} exited ${result.code}'
+            : result.err.trim(),
+      );
     }
     return result;
   }
@@ -77,7 +79,11 @@ class GitService {
         if (line.contains('\x1f'))
           (() {
             final parts = line.split('\x1f');
-            return GitCommit(parts[0], parts[1], parts.length > 2 ? parts[2] : '');
+            return GitCommit(
+              parts[0],
+              parts[1],
+              parts.length > 2 ? parts[2] : '',
+            );
           })(),
     ];
   }

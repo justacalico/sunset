@@ -265,13 +265,12 @@ class _UpdateTileState extends State<_UpdateTile> {
           subtitle: _checking
               ? Text(l10n.updateChecking)
               : _failed
-                  ? Text(l10n.updateFailed,
-                      style: TextStyle(color: colors.error))
-                  : update == null
-                      ? null
-                      : update.updateAvailable
-                          ? Text(l10n.updateAvailable(update.latestVersion))
-                          : Text(l10n.upToDate),
+              ? Text(l10n.updateFailed, style: TextStyle(color: colors.error))
+              : update == null
+              ? null
+              : update.updateAvailable
+              ? Text(l10n.updateAvailable(update.latestVersion))
+              : Text(l10n.upToDate),
           trailing: _checking
               ? const SizedBox(
                   width: 20,

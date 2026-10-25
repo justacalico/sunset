@@ -48,7 +48,9 @@ Future<void> snap(
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1.0;
   addTearDown(tester.view.reset);
-  await tester.pumpWidget(wrap(state ?? await testState(), child, locale: locale));
+  await tester.pumpWidget(
+    wrap(state ?? await testState(), child, locale: locale),
+  );
   await tester.pumpAndSettle();
   await expectLater(
     find.byType(MaterialApp),
@@ -97,7 +99,11 @@ void main() {
       state.prefs,
     );
     await state.registry.add(
-      const ProjectEntry(name: 'Vibecoded', path: '/home/u/vibe', imported: true),
+      const ProjectEntry(
+        name: 'Vibecoded',
+        path: '/home/u/vibe',
+        imported: true,
+      ),
       state.prefs,
     );
     await snap(tester, 'dashboard', const DashboardPage(), state: state);
@@ -118,10 +124,7 @@ void main() {
       gitRun: FakeGit().run,
     );
     await tester.pumpWidget(
-      wrap(
-        state,
-        Scaffold(body: ProjectPage(editor: editor)),
-      ),
+      wrap(state, Scaffold(body: ProjectPage(editor: editor))),
     );
     tester.view.physicalSize = const Size(1500, 950);
     tester.view.devicePixelRatio = 1.0;

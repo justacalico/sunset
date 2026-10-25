@@ -96,8 +96,7 @@ class EditorState extends ChangeNotifier {
   String? _defaultParentId({String? type}) {
     final flex = type == 'expanded' || type == 'spacer';
     bool ok(WidgetNode n) =>
-        _acceptsChildren(n) &&
-        (!flex || n.type == 'column' || n.type == 'row');
+        _acceptsChildren(n) && (!flex || n.type == 'column' || n.type == 'row');
     final root = screen.root;
     final selected = this.selected;
     if (selected != null && ok(selected)) return selected.id;
@@ -142,12 +141,14 @@ class EditorState extends ChangeNotifier {
   }
 
   void moveWidget(String nodeId, String parentId, int index) {
-    _mutate(() => project.moveWidget(
-          screen.id,
-          nodeId,
-          parentId: parentId,
-          index: index,
-        ));
+    _mutate(
+      () => project.moveWidget(
+        screen.id,
+        nodeId,
+        parentId: parentId,
+        index: index,
+      ),
+    );
   }
 
   void reorder(String nodeId, int delta) {
@@ -188,10 +189,10 @@ class EditorState extends ChangeNotifier {
     return true;
   }
 
-  void setResponsive(bool value) =>
-      _mutate(() => screen.responsive = value);
+  void setResponsive(bool value) => _mutate(() => screen.responsive = value);
 
-  void setSeedColor(int color) => _mutate(() => project.theme.seedColor = color);
+  void setSeedColor(int color) =>
+      _mutate(() => project.theme.seedColor = color);
 
   void setBrightness(ThemeBrightness mode) =>
       _mutate(() => project.theme.brightness = mode);
@@ -208,8 +209,7 @@ class EditorState extends ChangeNotifier {
   void setMessage(String key, String locale, String text) =>
       _mutate(() => project.setMessage(key, locale, text));
 
-  void removeMessage(String key) =>
-      _mutate(() => project.removeMessage(key));
+  void removeMessage(String key) => _mutate(() => project.removeMessage(key));
 
   void undo() {
     if (_undo.isEmpty) return;
