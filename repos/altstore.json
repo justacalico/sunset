@@ -18,11 +18,11 @@
       "screenshots": [],
       "versions": [
         {
-          "version": "0.0.1",
+          "version": "0.1.0",
           "date": "2026-10-25",
           "localizedDescription": "See the release notes for changes.",
-          "downloadURL": "https://gitlab.com/HttpAnimations/sunset/-/releases/v0.0.1/downloads/sunset-0.0.1-ios.ipa",
-          "size": 8213786,
+          "downloadURL": "https://gitlab.com/HttpAnimations/sunset/-/releases/v0.1.0/downloads/sunset-0.1.0-ios.ipa",
+          "size": 8233001,
           "minOSVersion": "14.0"
         }
       ],
