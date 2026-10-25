@@ -260,6 +260,8 @@ void main() {
       final lv = p.addWidget(screen.id, 'listView', parentId: col.id).node!;
       lv.props['spacing'] = 4.0;
       lv.props['padding'] = 8.0;
+      final lv2 = p.addWidget(screen.id, 'listView', parentId: col.id).node!;
+      lv2.props['height'] = 150.0;
       for (final type in ['text', 'card']) {
         final n = p.addWidget(screen.id, type, parentId: lv.id).node!;
         for (final prop in widgetDef(type)!.props) {
@@ -267,6 +269,8 @@ void main() {
         }
       }
       final grid = p.addWidget(screen.id, 'gridView', parentId: col.id).node!;
+      final grid2 = p.addWidget(screen.id, 'gridView', parentId: col.id).node!;
+      grid2.props['height'] = 150.0;
       for (final type in ['text', 'icon']) {
         final n = p.addWidget(screen.id, type, parentId: grid.id).node!;
         for (final prop in widgetDef(type)!.props) {
