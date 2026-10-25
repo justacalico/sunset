@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sunset/core/fs.dart';
-import 'package:sunset/state/app_state.dart';
 import 'package:sunset/ui/editor/palette.dart';
 import 'package:sunset/ui/editor/preview.dart';
 import 'package:sunset/ui/editor/tree_panel.dart';
