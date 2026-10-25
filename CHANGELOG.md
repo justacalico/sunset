@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## v0.1.0 - 2026-10-25
+#### Features
+- 画布与组件树支持拖拽 - (21ae58b) - calico
+
+- - -
+
 ## v0.0.1 - 2026-10-25
 #### Bug Fixes
 - 发布作业改用部署密钥推送 - (d5b5164) - calico

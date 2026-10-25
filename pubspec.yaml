@@ -1,7 +1,7 @@
 name: sunset
 description: "Sunset - a visual Flutter app builder."
 publish_to: 'none'
-version: 0.0.1+2
+version: 0.1.0+3
 
 environment:
   sdk: ^3.13.5
