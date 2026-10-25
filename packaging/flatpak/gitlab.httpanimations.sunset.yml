@@ -1,0 +1,26 @@
+app-id: gitlab.httpanimations.sunset
+runtime: org.freedesktop.Platform
+runtime-version: "24.08"
+sdk: org.freedesktop.Sdk
+command: sunset
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=network
+  - --share=ipc
+  - --socket=ssh-auth
+  - --filesystem=home
+  - --device=dri
+modules:
+  - name: sunset
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/sunset /app/bin
+      - cp -r bundle/. /app/lib/sunset/
+      - install -Dm755 packaging/flatpak/sunset.sh /app/bin/sunset
+      - install -Dm644 packaging/linux/sunset.desktop /app/share/applications/gitlab.httpanimations.sunset.desktop
+      - install -Dm644 packaging/linux/sunset.png /app/share/icons/hicolor/256x256/apps/gitlab.httpanimations.sunset.png
+      - install -Dm644 packaging/linux/gitlab.httpanimations.sunset.metainfo.xml /app/share/metainfo/gitlab.httpanimations.sunset.metainfo.xml
+    sources:
+      - type: dir
+        path: ../..

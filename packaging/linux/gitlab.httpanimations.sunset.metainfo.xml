@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>gitlab.httpanimations.sunset</id>
+  <name>Sunset</name>
+  <summary>A visual Flutter app builder</summary>
+  <description>
+    <p>Sunset is a visual builder for Flutter apps. Place widgets on a canvas, style them, manage locales and git, then export a real Flutter project. No code required unless you want it.</p>
+  </description>
+  <launchable type="desktop-id">gitlab.httpanimations.sunset.desktop</launchable>
+  <url type="homepage">https://gitlab.com/HttpAnimations/sunset</url>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <developer><name>HttpAnimations</name></developer>
+  <releases>
+    <release version="0.0.1" date="2026-10-24"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

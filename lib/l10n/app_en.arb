@@ -1,0 +1,102 @@
+{
+  "@@locale": "en",
+  "appTitle": "Sunset",
+  "navDashboard": "Dashboard",
+  "navSettings": "Settings",
+  "appearanceSection": "Appearance",
+  "aboutSection": "About",
+  "theme": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeOled": "OLED",
+  "accentColor": "Accent colour",
+  "language": "Language",
+  "languageSystem": "System",
+  "versionLabel": "Version {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "checkUpdates": "Check for updates",
+  "updateChecking": "Checking…",
+  "updateFailed": "Check failed",
+  "updateAvailable": "Version {version} is available",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "upToDate": "Up to date",
+  "getUpdate": "Get {version}",
+  "@getUpdate": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "releasesLink": "All releases",
+  "sourceLink": "Source code",
+  "newProject": "New project",
+  "importProject": "Import Flutter project",
+  "emptyProjects": "No projects yet. Create one or import an existing Flutter project.",
+  "projectName": "Project name",
+  "cancel": "Cancel",
+  "create": "Create",
+  "removeFromList": "Remove from list",
+  "importedBadge": "Imported",
+  "noDirectoryPicked": "No folder picked",
+  "notFlutterProject": "That folder is not a Flutter project",
+  "backToDashboard": "Back to dashboard",
+  "addScreen": "Add screen",
+  "renameScreen": "Rename screen",
+  "screenName": "Screen name",
+  "saveProject": "Save project",
+  "projectSaved": "Project saved",
+  "panelWidgets": "Widgets",
+  "panelTree": "Tree",
+  "panelProps": "Props",
+  "panelTheme": "Theme",
+  "panelStrings": "Strings",
+  "panelGit": "Git",
+  "panelExport": "Export",
+  "groupLayout": "Layout",
+  "groupContent": "Content",
+  "inspectorEmpty": "Select a widget on the canvas or in the tree to edit it.",
+  "unknownWidget": "Unknown widget type",
+  "noneOption": "None",
+  "seedColor": "Seed colour",
+  "brightness": "Brightness",
+  "responsive": "Responsive layout",
+  "responsiveHint": "Generated screens adapt their padding to the window width.",
+  "packageName": "Package name",
+  "locales": "Locales",
+  "addLocale": "Add locale",
+  "stringsTitle": "Strings",
+  "addString": "Add string",
+  "stringKey": "Key",
+  "gitNotRepo": "This project is not a git repository yet.",
+  "gitInit": "Initialise git",
+  "gitChanges": "Changes",
+  "gitClean": "Working tree clean",
+  "gitHistory": "History",
+  "commitMessage": "Commit message",
+  "exportInfo": "Write the generated Flutter sources into the project folder.",
+  "exportImportedHint": "Imported project: only the Sunset screens and strings are written, your own code is untouched.",
+  "exportButton": "Export code",
+  "exportedFiles": "Exported {count} files",
+  "@exportedFiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exportTargets": "Files written"
+}

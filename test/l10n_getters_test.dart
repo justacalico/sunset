@@ -1,0 +1,91 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:sunset/l10n/app_localizations.dart';
+import 'package:sunset/state/settings_store.dart';
+
+void main() {
+  for (final locale in [...supportedLocales, const Locale('zh'), const Locale('en'), const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans')]) {
+    test('all getters resolve for \${locale.toLanguageTag()}', () {
+      final l10n = lookupAppLocalizations(locale);
+      expect(l10n.appTitle, isNotNull);
+      expect(l10n.navDashboard, isNotNull);
+      expect(l10n.navSettings, isNotNull);
+      expect(l10n.appearanceSection, isNotNull);
+      expect(l10n.aboutSection, isNotNull);
+      expect(l10n.theme, isNotNull);
+      expect(l10n.themeSystem, isNotNull);
+      expect(l10n.themeLight, isNotNull);
+      expect(l10n.themeDark, isNotNull);
+      expect(l10n.themeOled, isNotNull);
+      expect(l10n.accentColor, isNotNull);
+      expect(l10n.language, isNotNull);
+      expect(l10n.languageSystem, isNotNull);
+      expect(l10n.checkUpdates, isNotNull);
+      expect(l10n.updateChecking, isNotNull);
+      expect(l10n.updateFailed, isNotNull);
+      expect(l10n.upToDate, isNotNull);
+      expect(l10n.releasesLink, isNotNull);
+      expect(l10n.sourceLink, isNotNull);
+      expect(l10n.newProject, isNotNull);
+      expect(l10n.importProject, isNotNull);
+      expect(l10n.emptyProjects, isNotNull);
+      expect(l10n.projectName, isNotNull);
+      expect(l10n.cancel, isNotNull);
+      expect(l10n.create, isNotNull);
+      expect(l10n.removeFromList, isNotNull);
+      expect(l10n.importedBadge, isNotNull);
+      expect(l10n.noDirectoryPicked, isNotNull);
+      expect(l10n.notFlutterProject, isNotNull);
+      expect(l10n.backToDashboard, isNotNull);
+      expect(l10n.addScreen, isNotNull);
+      expect(l10n.renameScreen, isNotNull);
+      expect(l10n.screenName, isNotNull);
+      expect(l10n.saveProject, isNotNull);
+      expect(l10n.projectSaved, isNotNull);
+      expect(l10n.panelWidgets, isNotNull);
+      expect(l10n.panelTree, isNotNull);
+      expect(l10n.panelProps, isNotNull);
+      expect(l10n.panelTheme, isNotNull);
+      expect(l10n.panelStrings, isNotNull);
+      expect(l10n.panelGit, isNotNull);
+      expect(l10n.panelExport, isNotNull);
+      expect(l10n.groupLayout, isNotNull);
+      expect(l10n.groupContent, isNotNull);
+      expect(l10n.inspectorEmpty, isNotNull);
+      expect(l10n.unknownWidget, isNotNull);
+      expect(l10n.noneOption, isNotNull);
+      expect(l10n.seedColor, isNotNull);
+      expect(l10n.brightness, isNotNull);
+      expect(l10n.responsive, isNotNull);
+      expect(l10n.responsiveHint, isNotNull);
+      expect(l10n.packageName, isNotNull);
+      expect(l10n.locales, isNotNull);
+      expect(l10n.addLocale, isNotNull);
+      expect(l10n.stringsTitle, isNotNull);
+      expect(l10n.addString, isNotNull);
+      expect(l10n.stringKey, isNotNull);
+      expect(l10n.gitNotRepo, isNotNull);
+      expect(l10n.gitInit, isNotNull);
+      expect(l10n.gitChanges, isNotNull);
+      expect(l10n.gitClean, isNotNull);
+      expect(l10n.gitHistory, isNotNull);
+      expect(l10n.commitMessage, isNotNull);
+      expect(l10n.exportInfo, isNotNull);
+      expect(l10n.exportImportedHint, isNotNull);
+      expect(l10n.exportButton, isNotNull);
+      expect(l10n.exportTargets, isNotNull);
+      expect(l10n.versionLabel('x'), isNotNull);
+      expect(l10n.updateAvailable('x'), isNotNull);
+      expect(l10n.getUpdate('x'), isNotNull);
+      expect(l10n.exportedFiles(2), isNotNull);
+    });
+  }
+
+  test('delegate and lookup fallbacks', () {
+    expect(AppLocalizations.delegate.isSupported(const Locale('en', 'GB')), isTrue);
+    expect(AppLocalizations.delegate.isSupported(const Locale('xx')), isFalse);
+    expect(AppLocalizations.delegate.shouldReload(AppLocalizations.delegate), isFalse);
+    expect(lookupAppLocalizations(const Locale('en')).appTitle, 'Sunset');
+    expect(lookupAppLocalizations(const Locale('zh')).appTitle, isNotEmpty);
+  });
+}

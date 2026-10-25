@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Sunset
+Comment=A visual Flutter app builder
+Exec=sunset
+Icon=gitlab.httpanimations.sunset
+Terminal=false
+Type=Application
+Categories=Development;IDE;
+StartupWMClass=sunset

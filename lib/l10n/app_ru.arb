@@ -1,0 +1,102 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Sunset",
+  "navDashboard": "Панель",
+  "navSettings": "Настройки",
+  "appearanceSection": "Внешний вид",
+  "aboutSection": "О программе",
+  "theme": "Тема",
+  "themeSystem": "Системная",
+  "themeLight": "Светлая",
+  "themeDark": "Тёмная",
+  "themeOled": "OLED",
+  "accentColor": "Акцентный цвет",
+  "language": "Язык",
+  "languageSystem": "Системный",
+  "versionLabel": "Версия {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "checkUpdates": "Проверить обновления",
+  "updateChecking": "Проверка…",
+  "updateFailed": "Ошибка проверки",
+  "updateAvailable": "Доступна версия {version}",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "upToDate": "Уже последняя версия",
+  "getUpdate": "Получить {version}",
+  "@getUpdate": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "releasesLink": "Все релизы",
+  "sourceLink": "Исходный код",
+  "newProject": "Новый проект",
+  "importProject": "Импорт проекта Flutter",
+  "emptyProjects": "Проектов пока нет. Создайте новый или импортируйте существующий проект Flutter.",
+  "projectName": "Название проекта",
+  "cancel": "Отмена",
+  "create": "Создать",
+  "removeFromList": "Убрать из списка",
+  "importedBadge": "Импортирован",
+  "noDirectoryPicked": "Папка не выбрана",
+  "notFlutterProject": "Эта папка не является проектом Flutter",
+  "backToDashboard": "Назад к панели",
+  "addScreen": "Добавить экран",
+  "renameScreen": "Переименовать экран",
+  "screenName": "Название экрана",
+  "saveProject": "Сохранить проект",
+  "projectSaved": "Проект сохранён",
+  "panelWidgets": "Виджеты",
+  "panelTree": "Дерево",
+  "panelProps": "Свойства",
+  "panelTheme": "Тема",
+  "panelStrings": "Строки",
+  "panelGit": "Git",
+  "panelExport": "Экспорт",
+  "groupLayout": "Разметка",
+  "groupContent": "Содержимое",
+  "inspectorEmpty": "Выберите виджет на холсте или в дереве, чтобы изменить его.",
+  "unknownWidget": "Неизвестный тип виджета",
+  "noneOption": "Нет",
+  "seedColor": "Базовый цвет",
+  "brightness": "Яркость",
+  "responsive": "Адаптивная вёрстка",
+  "responsiveHint": "Созданные экраны подстраивают отступы под ширину окна.",
+  "packageName": "Имя пакета",
+  "locales": "Языки",
+  "addLocale": "Добавить язык",
+  "stringsTitle": "Строки",
+  "addString": "Добавить строку",
+  "stringKey": "Ключ",
+  "gitNotRepo": "Этот проект ещё не является git-репозиторием.",
+  "gitInit": "Инициализировать git",
+  "gitChanges": "Изменения",
+  "gitClean": "Рабочее дерево чистое",
+  "gitHistory": "История",
+  "commitMessage": "Сообщение коммита",
+  "exportInfo": "Записать сгенерированный код Flutter в папку проекта.",
+  "exportImportedHint": "Импортированный проект: записываются только экраны и строки Sunset, ваш код не затрагивается.",
+  "exportButton": "Экспортировать код",
+  "exportedFiles": "Экспортировано файлов: {count}",
+  "@exportedFiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exportTargets": "Записанные файлы"
+}

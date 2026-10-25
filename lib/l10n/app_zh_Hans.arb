@@ -1,0 +1,102 @@
+{
+  "@@locale": "zh_Hans",
+  "appTitle": "Sunset",
+  "navDashboard": "仪表盘",
+  "navSettings": "设置",
+  "appearanceSection": "外观",
+  "aboutSection": "关于",
+  "theme": "主题",
+  "themeSystem": "跟随系统",
+  "themeLight": "浅色",
+  "themeDark": "深色",
+  "themeOled": "OLED",
+  "accentColor": "强调色",
+  "language": "语言",
+  "languageSystem": "跟随系统",
+  "versionLabel": "版本 {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "checkUpdates": "检查更新",
+  "updateChecking": "正在检查…",
+  "updateFailed": "检查失败",
+  "updateAvailable": "新版本 {version} 可用",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "upToDate": "已是最新",
+  "getUpdate": "获取 {version}",
+  "@getUpdate": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "releasesLink": "所有版本",
+  "sourceLink": "源代码",
+  "newProject": "新建项目",
+  "importProject": "导入 Flutter 项目",
+  "emptyProjects": "还没有项目。新建一个，或导入已有的 Flutter 项目。",
+  "projectName": "项目名称",
+  "cancel": "取消",
+  "create": "创建",
+  "removeFromList": "从列表移除",
+  "importedBadge": "已导入",
+  "noDirectoryPicked": "未选择文件夹",
+  "notFlutterProject": "该文件夹不是 Flutter 项目",
+  "backToDashboard": "返回仪表盘",
+  "addScreen": "添加页面",
+  "renameScreen": "重命名页面",
+  "screenName": "页面名称",
+  "saveProject": "保存项目",
+  "projectSaved": "项目已保存",
+  "panelWidgets": "组件",
+  "panelTree": "树",
+  "panelProps": "属性",
+  "panelTheme": "主题",
+  "panelStrings": "字符串",
+  "panelGit": "Git",
+  "panelExport": "导出",
+  "groupLayout": "布局",
+  "groupContent": "内容",
+  "inspectorEmpty": "在画布或树中选择一个组件即可编辑。",
+  "unknownWidget": "未知的组件类型",
+  "noneOption": "无",
+  "seedColor": "种子颜色",
+  "brightness": "亮度",
+  "responsive": "响应式布局",
+  "responsiveHint": "生成的页面会随窗口宽度自适应内边距。",
+  "packageName": "包名",
+  "locales": "语言环境",
+  "addLocale": "添加语言",
+  "stringsTitle": "字符串",
+  "addString": "添加字符串",
+  "stringKey": "键",
+  "gitNotRepo": "该项目还不是 git 仓库。",
+  "gitInit": "初始化 git",
+  "gitChanges": "变更",
+  "gitClean": "工作区干净",
+  "gitHistory": "历史",
+  "commitMessage": "提交信息",
+  "exportInfo": "将生成的 Flutter 源码写入项目文件夹。",
+  "exportImportedHint": "导入的项目：只写入 Sunset 的页面和字符串，不改动你自己的代码。",
+  "exportButton": "导出代码",
+  "exportedFiles": "已导出 {count} 个文件",
+  "@exportedFiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exportTargets": "写入的文件"
+}

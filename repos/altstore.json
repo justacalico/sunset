@@ -1,0 +1,23 @@
+{
+  "name": "Sunset",
+  "identifier": "gitlab.httpanimations.sunset",
+  "subtitle": "Visual Flutter app builder",
+  "description": "Design Flutter apps visually. Place widgets on a canvas, style everything, export real Flutter projects.",
+  "iconURL": "https://gitlab.com/HttpAnimations/sunset/-/raw/main/assets/icon/icon_256.png",
+  "tintColor": "F3813F",
+  "category": "developer",
+  "apps": [
+    {
+      "name": "Sunset",
+      "bundleIdentifier": "gitlab.httpanimations.sunset",
+      "developerName": "HttpAnimations",
+      "iconURL": "https://gitlab.com/HttpAnimations/sunset/-/raw/main/assets/icon/icon_256.png",
+      "tintColor": "F3813F",
+      "subtitle": "Visual Flutter app builder",
+      "localizedDescription": "Design Flutter apps visually. Place widgets on a canvas, style everything, export real Flutter projects.",
+      "screenshotURLs": [],
+      "versions": []
+    }
+  ],
+  "news": []
+}
